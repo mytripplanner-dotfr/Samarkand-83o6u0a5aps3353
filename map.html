@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte du voyage - Samarkand</title>
+  <style>
+    body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    #map { height: 100vh; width: 100%; }
+    .info-window { max-width: 250px; font-family: Arial, sans-serif; }
+    .info-window img { width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px; }
+    .info-window h3 { margin: 0 0 5px 0; font-size: 16px; color: #333; }
+    .info-window p { margin: 5px 0; font-size: 14px; color: #666; }
+    .info-window a { color: #1a73e8; text-decoration: none; }
+    .info-window a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  
+  <script>
+    function initMap() {
+      const center = { lat: 40.048998350000005, lng: 65.4739436125 };
+      const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: center
+      });
+      
+      const markers = [{"lat":40.7453131,"lng":69.18345099999999,"name":"Tachkent / Samarcande","jour":1,"titre":"Arrivée à Tachkent et voyage vers Samarcande","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=40.7453131,69.18345099999999&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=40.7453131,69.18345099999999","aiImageUrl":"jour1.jpg"},{"lat":39.6507963,"lng":66.9653502,"name":"Samarcande","jour":2,"titre":"Le Cœur de Samarcande: Le Registan","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=39.6507963,66.9653502&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=39.6507963,66.9653502","aiImageUrl":"jour2.jpg"},{"lat":39.7682591,"lng":64.45686479999999,"name":"Samarcande / Boukhara","jour":7,"titre":"Voyage vers Boukhara, la Noble","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=39.7682591,64.45686479999999&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=39.7682591,64.45686479999999","aiImageUrl":"jour7.jpg"},{"lat":39.7682591,"lng":64.45686479999999,"name":"Boukhara","jour":8,"titre":"Boukhara, Cœur de l'Islam","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=39.7682591,64.45686479999999&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=39.7682591,64.45686479999999","aiImageUrl":"jour8.jpg"},{"lat":39.7682591,"lng":64.45686479999999,"name":"Boukhara / Khiva","jour":12,"titre":"Voyage vers Khiva, la Ville-Musée","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=39.7682591,64.45686479999999&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=39.7682591,64.45686479999999","aiImageUrl":"jour12.jpg"},{"lat":41.3895075,"lng":60.3414529,"name":"Khiva","jour":13,"titre":"Khiva, la Ville Fortifiée d'Itchan Kala","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=41.3895075,60.3414529&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=41.3895075,60.3414529","aiImageUrl":"jour13.jpg"},{"lat":39.6507963,"lng":66.9653502,"name":"Khiva / Samarcande","jour":16,"titre":"Retour vers Samarcande","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=39.6507963,66.9653502&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=39.6507963,66.9653502","aiImageUrl":"jour16.jpg"},{"lat":39.6507963,"lng":66.9653502,"name":"Samarcande / Chakhrisabz","jour":18,"titre":"Excursion à Chakhrisabz, Ville Natale de Tamerlan","streetViewUrl":"https://maps.googleapis.com/maps/api/streetview?size=600x400&location=39.6507963,66.9653502&key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI","streetViewLinkUrl":"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=39.6507963,66.9653502","aiImageUrl":"jour18.jpg"}];
+      
+      markers.forEach((markerData) => {
+        const marker = new google.maps.Marker({
+          position: { lat: markerData.lat, lng: markerData.lng },
+          map: map,
+          title: markerData.name,
+          label: String(markerData.jour)
+        });
+        
+        const contentString = `
+          <div class="info-window">
+            <img src="${markerData.streetViewUrl}" alt="Street View de ${markerData.name}" />
+            <h3>Jour ${markerData.jour}</h3>
+            <p><strong>${markerData.name}</strong></p>
+            <p><a href="${markerData.streetViewLinkUrl}" target="_blank" rel="noopener noreferrer"><strong>${markerData.titre}</strong></a></p>
+          </div>
+        `;
+        
+        const infoWindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        
+        marker.addListener('click', () => {
+          infoWindow.open(map, marker);
+        });
+      });
+    }
+  </script>
+  
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5WUNvRC9eOjHRLt92fs4hsp0Auje3aAI&callback=initMap">
+  </script>
+</body>
+</html>
